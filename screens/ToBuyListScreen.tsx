@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import ProductToBuy from '../components/ShopingList/ProductToBuy';
 import { ProductType } from '../components/ShopingList/ProductToBuy';
-import { StateType } from '../store/reducer';
 import AddToByeProduct from '../components/AddToBuyProduct';
 
 type Props = {
