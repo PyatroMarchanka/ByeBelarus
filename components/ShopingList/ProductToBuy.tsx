@@ -13,7 +13,7 @@ export type ProductTypeDTO = {
   count: string;
 };
 
-const Product = ({ name, count }: ProductTypeDTO) => {
+const ProductToBuy = ({ name, count }: ProductTypeDTO) => {
   return (
     <View style={styles.container}>
       <Text>{name}</Text>
@@ -22,7 +22,7 @@ const Product = ({ name, count }: ProductTypeDTO) => {
   );
 };
 
-export default Product;
+export default ProductToBuy;
 
 const styles = StyleSheet.create({
   container: {

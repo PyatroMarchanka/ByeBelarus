@@ -1,4 +1,4 @@
-import { ProductType } from '../components/ShopingList/Product';
+import { ProductType } from '../components/ShopingList/ProductToBuy';
 
 type Action = {
   type: string;
@@ -14,7 +14,7 @@ const initialState: StateType = {
     { id: '1', name: 'Cheese', count: '1kg' },
     { id: '2', name: 'Milk', count: '1l' },
     { id: '3', name: 'Bread', count: '500g' },
-    { id: '3', name: 'Butter', count: '250g' },
+    { id: '4', name: 'Butter', count: '250g' },
   ],
 };
 

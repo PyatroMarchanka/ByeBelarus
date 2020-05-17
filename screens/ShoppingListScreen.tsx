@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import { StyleSheet, Text, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import Product from '../components/ShopingList/Product';
-import { ProductType } from '../components/ShopingList/Product';
+import ProductToBuy from '../components/ShopingList/ProductToBuy';
+import { ProductType } from '../components/ShopingList/ProductToBuy';
 import { StateType } from '../store/reducer';
 type Props = {
   products: ProductType[];
@@ -14,7 +14,7 @@ const ToBuyListScreen = ({ products }: Props) => {
     <View style={styles.container}>
       <FlatList
         renderItem={({ item }: { item: ProductType }) => (
-          <Product name={item.name} count={item.count} />
+          <ProductToBuy name={item.name} count={item.count} />
         )}
         data={products}
         keyExtractor={(item) => item.id}
