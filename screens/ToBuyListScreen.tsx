@@ -6,9 +6,11 @@ import { FlatList } from 'react-native-gesture-handler';
 import ProductToBuy from '../components/ShopingList/ProductToBuy';
 import { ProductType } from '../components/ShopingList/ProductToBuy';
 import { StateType } from '../store/reducer';
+
 type Props = {
   products: ProductType[];
 };
+
 const ToBuyListScreen = ({ products }: Props) => {
   return (
     <View style={styles.container}>
@@ -23,11 +25,7 @@ const ToBuyListScreen = ({ products }: Props) => {
   );
 };
 
-const mapStateToProps = (state: StateType) => ({
-  products: state.products,
-});
-
-export default connect(mapStateToProps)(ToBuyListScreen);
+export default ToBuyListScreen;
 
 const styles = StyleSheet.create({
   container: {

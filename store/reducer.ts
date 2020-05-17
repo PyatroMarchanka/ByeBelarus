@@ -1,4 +1,5 @@
 import { ProductType } from '../components/ShopingList/ProductToBuy';
+import { BoughtProductType } from '../components/ShopingList/BoughtProduct';
 
 type Action = {
   type: string;
@@ -7,6 +8,7 @@ type Action = {
 
 export type StateType = {
   products: ProductType[];
+  boughtProducts: BoughtProductType[];
 };
 
 const initialState: StateType = {
@@ -16,17 +18,41 @@ const initialState: StateType = {
     { id: '3', name: 'Bread', count: '500g' },
     { id: '4', name: 'Butter', count: '250g' },
   ],
+  boughtProducts: [
+    { id: '5', name: 'Cheese', count: '1kg', cost: 32 },
+    { id: '6', name: 'Milk', count: '1l', cost: 3 },
+    { id: '7', name: 'Bread', count: '500g', cost: 56 },
+    { id: '8', name: 'Butter', count: '250g', cost: 8 },
+  ],
 };
 
 export const reducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case 'ADD_PRODUCT':
+    case 'ADD_TO_BUY_PRODUCT':
       return {
         ...state,
         products: [...state.products, action.payload as ProductType],
       };
-    case 'REMOVE_PRODUCT':
-      return state;
+    case 'REMOVE_TO_BUY_PRODUCT':
+      return {
+        ...state,
+        products: state.products.filter((prod) => prod.id !== action.payload),
+      };
+    case 'ADD_BOUGHT_PRODUCT':
+      return {
+        ...state,
+        boughtProducts: [
+          ...state.boughtProducts,
+          action.payload as BoughtProductType,
+        ],
+      };
+    case 'REMOVE_BOUGHT_PRODUCT':
+      return {
+        ...state,
+        boughtProducts: state.boughtProducts.filter(
+          (prod) => prod.id !== action.payload,
+        ),
+      };
     default:
       return state;
   }
