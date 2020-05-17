@@ -1,14 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
-const ShoppingListScreen = () => {
+import { StyleSheet, Text, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import Product from '../components/ShopingList/Product';
+import { ProductType } from '../components/ShopingList/Product';
+import { StateType } from '../store/reducer';
+type Props = {
+  products: ProductType[];
+};
+const ToBuyListScreen = ({ products }: Props) => {
   return (
-    <View>
-      <Text>Shopping list</Text>
+    <View style={styles.container}>
+      <FlatList
+        renderItem={({ item }: { item: ProductType }) => (
+          <Product name={item.name} count={item.count} />
+        )}
+        data={products}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 };
 
-export default ShoppingListScreen;
+const mapStateToProps = (state: StateType) => ({
+  products: state.products,
+});
 
-const styles = StyleSheet.create({});
+export default connect(mapStateToProps)(ToBuyListScreen);
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    flex: 1,
+  },
+});
