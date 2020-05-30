@@ -4,9 +4,10 @@ type Props = {
   amount: number;
 };
 export const TotalAmount = ({ amount }: Props) => {
+  const r = 'cwdc';
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Total amount: {amount}$</Text>
+      <Text style={styles.text}>Total amount: {r}$</Text>
     </View>
   );
 };

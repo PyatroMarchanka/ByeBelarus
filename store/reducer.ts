@@ -1,11 +1,5 @@
-import {
-  ProductType,
-  ProductTypeDTO,
-} from '../components/ShopingList/ProductToBuy';
-import {
-  BoughtProductType,
-  BoughtProductTypeDTO,
-} from '../components/ShopingList/BoughtProduct';
+import { ProductType } from '../components/ShopingList/ProductToBuy';
+import { Units } from '../components/ShopingList/AddEditBuyProduct/useProductForm';
 
 type Action = {
   type: string;
@@ -14,66 +8,74 @@ type Action = {
 
 export type StateType = {
   products: ProductType[];
-  boughtProducts: BoughtProductType[];
 };
 
 export const actions = {
-  addToBuyProduct: (prod: ProductTypeDTO): Action => ({
-    type: 'ADD_TO_BUY_PRODUCT',
+  addToBuyProduct: (prod: ProductType): Action => ({
+    type: 'ADD_PRODUCT',
     payload: { ...prod, id: Math.random().toString() },
   }),
   deleteToBuyProduct: (id: string) => ({
-    type: 'REMOVE_TO_BUY_PRODUCT',
+    type: 'REMOVE_PRODUCT',
     payload: id,
-  }),
-  addBoughtProduct: (prod: BoughtProductTypeDTO) => ({
-    type: 'ADD_BOUGHT_PRODUCT',
-    payload: { ...prod, id: Math.random().toString() },
   }),
 };
 
 const initialState: StateType = {
   products: [
-    { id: '1', name: 'Cheese', count: '1kg' },
-    { id: '2', name: 'Milk', count: '1l' },
-    { id: '3', name: 'Bread', count: '500g' },
-    { id: '4', name: 'Butter', count: '250g' },
-  ],
-  boughtProducts: [
-    { id: '5', name: 'Cheese', count: '1kg', cost: 32 },
-    { id: '6', name: 'Milk', count: '1l', cost: 3 },
-    { id: '7', name: 'Bread', count: '500g', cost: 56 },
-    { id: '8', name: 'Butter', count: '250g', cost: 8 },
+    {
+      id: '1',
+      name: 'Cheese',
+      amount: 4,
+      units: Units.item,
+      boughtOptions: {
+        cost: 24,
+        amount: 2,
+      },
+    },
+    {
+      id: '2',
+      name: 'Milk',
+      amount: 4,
+      units: Units.g,
+      boughtOptions: {
+        cost: 32,
+        amount: 5,
+      },
+    },
+    {
+      id: '3',
+      name: 'Bread',
+      amount: 4,
+      units: Units.kg,
+      boughtOptions: {
+        cost: 32,
+        amount: 6,
+      },
+    },
+    {
+      id: '4',
+      name: 'Butter',
+      amount: 4,
+      units: Units.item,
+      boughtOptions: null,
+    },
   ],
 };
 
 export const reducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case 'ADD_TO_BUY_PRODUCT':
+    case 'ADD_PRODUCT':
       return {
         ...state,
         products: [...state.products, action.payload as ProductType],
       };
-    case 'REMOVE_TO_BUY_PRODUCT':
+    case 'REMOVE_PRODUCT':
       return {
         ...state,
         products: state.products.filter((prod) => prod.id !== action.payload),
       };
-    case 'ADD_BOUGHT_PRODUCT':
-      return {
-        ...state,
-        boughtProducts: [
-          ...state.boughtProducts,
-          action.payload as BoughtProductType,
-        ],
-      };
-    case 'REMOVE_BOUGHT_PRODUCT':
-      return {
-        ...state,
-        boughtProducts: state.boughtProducts.filter(
-          (prod) => prod.id !== action.payload,
-        ),
-      };
+
     default:
       return state;
   }

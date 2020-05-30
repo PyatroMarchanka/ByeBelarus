@@ -1,30 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../theme/colors';
-import { ProductTypeDTO } from './ProductToBuy';
-export type BoughtProductType = {
-  name: string;
-  count: string;
-  id: string;
-  cost: number;
-};
+import { ProductType } from './ProductToBuy';
+import { StateType } from '../../store/reducer';
+import { connect } from 'react-redux';
 
 export type BoughtProductTypeDTO = {
-  name: string;
-  count: string;
-  cost: number;
+  product: ProductType;
 };
-const BoughtProduct = ({ name, count, cost }: BoughtProductTypeDTO) => {
+
+const BoughtProduct = ({ product }: BoughtProductTypeDTO) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{name}</Text>
-      <Text style={styles.text}>{count}</Text>
-      <Text style={styles.text}>{cost}$</Text>
+      <Text style={styles.text}>{product.name}</Text>
+      <Text style={styles.text}>
+        {`${product.boughtOptions?.amount || product.amount} ${product.units}`}
+      </Text>
+      <Text style={styles.text}>
+        {product.boughtOptions?.cost ? product.boughtOptions?.cost + '$' : ''}
+      </Text>
     </View>
   );
 };
+const mapStateToProps = (state: StateType) => ({
+  products: state.products.filter((prod) => !!prod.boughtOptions),
+});
 
-export default BoughtProduct;
+export default connect(mapStateToProps)(BoughtProduct);
 
 const styles = StyleSheet.create({
   container: {

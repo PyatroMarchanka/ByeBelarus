@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import ProductToBuy from '../components/ShopingList/ProductToBuy';
 import { ProductType } from '../components/ShopingList/ProductToBuy';
-import AddToByeProduct from '../components/AddToBuyProduct';
+import AddToByeProduct from '../components/ShopingList/AddEditBuyProduct/AddEditBuyProduct';
 import { connect } from 'react-redux';
 import { StateType } from '../store/reducer';
 
@@ -22,7 +22,7 @@ const ToBuyListScreen = ({ products }: Props) => {
       />
       <FlatList
         renderItem={({ item }: { item: ProductType }) => (
-          <ProductToBuy name={item.name} count={item.count} id={item.id} />
+          <ProductToBuy product={item} />
         )}
         data={products}
         keyExtractor={(item) => item.id}
@@ -33,7 +33,7 @@ const ToBuyListScreen = ({ products }: Props) => {
 };
 
 const mapStateToProps = (state: StateType) => ({
-  products: state.products,
+  products: state.products.filter((prod) => !prod.boughtOptions),
 });
 
 export default connect(mapStateToProps)(ToBuyListScreen);
@@ -41,6 +41,6 @@ export default connect(mapStateToProps)(ToBuyListScreen);
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    flex: 1,
+    flex: 1.5,
   },
 });

@@ -3,20 +3,20 @@ import { ProductType } from '../components/ShopingList/ProductToBuy';
 import { FlatList } from 'react-native-gesture-handler';
 import { View, StyleSheet } from 'react-native';
 import { colors } from '../theme/colors';
-import BoughtProduct, {
-  BoughtProductType,
-} from '../components/ShopingList/BoughtProduct';
+import BoughtProduct from '../components/ShopingList/BoughtProduct';
+import { StateType } from '../store/reducer';
+import { connect } from 'react-redux';
 
 type Props = {
-  products: BoughtProductType[];
+  products: ProductType[];
 };
 
 const BoughtListScreen = ({ products }: Props) => {
   return (
     <View style={styles.container}>
       <FlatList
-        renderItem={({ item }: { item: BoughtProductType }) => (
-          <BoughtProduct name={item.name} count={item.count} cost={item.cost} />
+        renderItem={({ item }: { item: ProductType }) => (
+          <BoughtProduct product={item} />
         )}
         data={products}
         keyExtractor={(item) => item.id}
@@ -24,8 +24,11 @@ const BoughtListScreen = ({ products }: Props) => {
     </View>
   );
 };
+const mapStateToProps = (state: StateType) => ({
+  products: state.products.filter((prod) => prod.boughtOptions),
+});
 
-export default BoughtListScreen;
+export default connect(mapStateToProps)(BoughtListScreen);
 
 const styles = StyleSheet.create({
   container: {

@@ -5,26 +5,25 @@ import ToBuyListScreen from './ToBuyList';
 import BoughtListScreen from './BoughtList';
 import { StateType } from '../store/reducer';
 import { ProductType } from '../components/ShopingList/ProductToBuy';
-import { BoughtProductType } from '../components/ShopingList/BoughtProduct';
 import { TotalAmount } from '../components/ShopingList/TotalAmount';
 type Props = {
   productsToBuy: ProductType[];
-  boughtProducts: BoughtProductType[];
+  boughtProducts: ProductType[];
   amount: number;
 };
 const ShopingList = ({ productsToBuy, boughtProducts, amount }: Props) => {
   return (
     <View style={styles.container}>
-      <ToBuyListScreen products={productsToBuy} />
-      <BoughtListScreen products={boughtProducts} />
+      <ToBuyListScreen />
+      <BoughtListScreen />
       <TotalAmount amount={amount} />
     </View>
   );
 };
 const mapStateToProps = (state: StateType) => ({
   productsToBuy: state.products,
-  boughtProducts: state.boughtProducts,
-  amount: state.boughtProducts.reduce((acc, cur) => acc + cur.cost, 0),
+  boughtProducts: state.products,
+  // amount: state.products.reduce((acc, cur) => acc + cur.cost, 0),
 });
 
 export default connect(mapStateToProps)(ShopingList);
