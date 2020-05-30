@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import Modal from 'react-native-modal';
 import { colors } from '../theme/colors';
+import { connect } from 'react-redux';
+import { StateType, actions } from '../store/reducer';
+import { ProductTypeDTO } from './ShopingList/ProductToBuy';
 type Props = {
   visible: boolean;
   setVisible: Function;
+  addToBuyProduct: Function;
 };
-const AddToBuyProduct = ({ visible, setVisible }: Props) => {
+const AddToBuyProduct = ({ visible, setVisible, addToBuyProduct }: Props) => {
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState('');
   return (
     <Modal isVisible={visible} style={styles.container}>
       <View style={styles.innerContainer}>
@@ -15,21 +21,43 @@ const AddToBuyProduct = ({ visible, setVisible }: Props) => {
           autoCapitalize="sentences"
           autoCorrect={true}
           placeholder="Title"
+          value={title}
+          onChangeText={(value: string) => setTitle(value)}
           style={styles.input}
         />
         <TextInput
           autoCapitalize="sentences"
           autoCorrect={true}
           placeholder="Amount"
+          value={amount}
+          onChangeText={(value: string) => setAmount(value)}
           style={styles.input}
         />
-        <Button title="Close" onPress={() => setVisible(false)} />
+        <View style={styles.buttons}>
+          <Button title="Close" onPress={() => setVisible(false)} />
+          <Button
+            title="Ok"
+            onPress={() => {
+              addToBuyProduct({ name: title, count: amount });
+              setVisible(false);
+            }}
+          />
+        </View>
       </View>
     </Modal>
   );
 };
 
-export default AddToBuyProduct;
+const mapStateToProps = (state: StateType) => ({
+  products: state.products,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  addToBuyProduct: (prod: ProductTypeDTO) =>
+    dispatch(actions.addToBuyProduct(prod)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddToBuyProduct);
 
 const styles = StyleSheet.create({
   innerContainer: {
@@ -58,5 +86,9 @@ const styles = StyleSheet.create({
     padding: 10,
     fontWeight: '500',
     fontSize: 20,
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });

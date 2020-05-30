@@ -1,5 +1,11 @@
-import { ProductType } from '../components/ShopingList/ProductToBuy';
-import { BoughtProductType } from '../components/ShopingList/BoughtProduct';
+import {
+  ProductType,
+  ProductTypeDTO,
+} from '../components/ShopingList/ProductToBuy';
+import {
+  BoughtProductType,
+  BoughtProductTypeDTO,
+} from '../components/ShopingList/BoughtProduct';
 
 type Action = {
   type: string;
@@ -9,6 +15,21 @@ type Action = {
 export type StateType = {
   products: ProductType[];
   boughtProducts: BoughtProductType[];
+};
+
+export const actions = {
+  addToBuyProduct: (prod: ProductTypeDTO): Action => ({
+    type: 'ADD_TO_BUY_PRODUCT',
+    payload: { ...prod, id: Math.random().toString() },
+  }),
+  deleteToBuyProduct: (id: string) => ({
+    type: 'REMOVE_TO_BUY_PRODUCT',
+    payload: id,
+  }),
+  addBoughtProduct: (prod: BoughtProductTypeDTO) => ({
+    type: 'ADD_BOUGHT_PRODUCT',
+    payload: { ...prod, id: Math.random().toString() },
+  }),
 };
 
 const initialState: StateType = {
