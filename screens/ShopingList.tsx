@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
-import ToBuyListScreen from './ToBuyListScreen';
-import BoughtListScreen from './BoughtListScreen';
+import ToBuyListScreen from './ToBuyList';
+import BoughtListScreen from './BoughtList';
 import { StateType } from '../store/reducer';
 import { ProductType } from '../components/ShopingList/ProductToBuy';
 import { BoughtProductType } from '../components/ShopingList/BoughtProduct';
