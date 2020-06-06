@@ -5,11 +5,11 @@ const SET_UNITS = 'SET_UNITS';
 const RESET = 'RESET';
 
 export enum Units {
-  kg = 'kg',
-  l = 'l',
-  ml = 'ml',
-  g = 'g',
-  item = 'items',
+  kg = 'кг',
+  l = 'л.',
+  ml = 'мл',
+  g = 'г',
+  item = 'шт.',
 }
 export type AddProductType = {
   name: string;

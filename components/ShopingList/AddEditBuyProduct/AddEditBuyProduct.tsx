@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { colors } from '../../../theme/colors';
 import { connect } from 'react-redux';
@@ -16,8 +16,8 @@ import {
   Icon,
   Right,
   Left,
+  Button,
 } from 'native-base';
-import { Dropdown } from 'react-native-material-dropdown';
 import { useProductForm, Units, AddProductType } from './useProductForm';
 
 type Props = {
@@ -45,7 +45,7 @@ const AddEditBuyProduct = ({
         <Text style={styles.text}>{title}</Text>
         <Form>
           <Item floatingLabel style={{ marginBottom: 10 }}>
-            <Label>Title</Label>
+            <Label>Назва</Label>
             <Input
               value={state.name}
               onChangeText={(value: string) => actions.setTitle(value)}
@@ -58,7 +58,7 @@ const AddEditBuyProduct = ({
           <Item picker>
             <Left>
               <Item floatingLabel last>
-                <Label>Amount</Label>
+                <Label>Колькасць</Label>
                 <Input
                   value={state.amount?.toString()}
                   onChangeText={(value: string) => actions.setAmount(value)}
@@ -72,17 +72,16 @@ const AddEditBuyProduct = ({
                 mode="dropdown"
                 iosIcon={<Icon type="Feather" name="arrow-down" />}
                 style={{ width: '100%' }}
-                placeholder="Select your SIM"
                 placeholderStyle={{ color: '#bfc6ea' }}
                 placeholderIconColor="#007aff"
                 selectedValue={state.units}
                 onValueChange={(value) => actions.setUnits(value)}
               >
-                <Picker.Item label="Kg" value={Units.kg} />
-                <Picker.Item label="Liters" value={Units.l} />
-                <Picker.Item label="Milliliters" value={Units.ml} />
-                <Picker.Item label="Items" value={Units.item} />
-                <Picker.Item label="Grams" value={Units.g} />
+                <Picker.Item label="Кіло" value={Units.kg} />
+                <Picker.Item label="Літры" value={Units.l} />
+                <Picker.Item label="Мілілітры" value={Units.ml} />
+                <Picker.Item label="Штукі" value={Units.item} />
+                <Picker.Item label="Грамы" value={Units.g} />
               </Picker>
             </Right>
           </Item>
@@ -90,19 +89,22 @@ const AddEditBuyProduct = ({
 
         <View style={styles.buttons}>
           <Button
-            title="Close"
             onPress={() => {
               setVisible(false);
             }}
-          />
+          >
+            <Text>Назад</Text>
+          </Button>
           <Button
+            success
             disabled={!state.name}
-            title="Ok"
             onPress={() => {
               onSubmit(state);
               setVisible(false);
             }}
-          />
+          >
+            <Text>Гатова!</Text>
+          </Button>
         </View>
       </View>
     </Modal>

@@ -42,7 +42,7 @@ const ProductToBuy = ({
   return (
     <ListItem icon>
       <AddEditBuyProduct
-        title="Edit product"
+        title="Хачу змяніць!"
         onSubmit={editToBuyProduct}
         visible={isEditModal}
         setVisible={setIsEditModal}
@@ -73,6 +73,7 @@ const ProductToBuy = ({
         <TouchableOpacity
           onLongPress={() => deleteToBuyProduct(product.id)}
           style={styles.productContainer}
+          //TODO: feature for choose whether to ask user for price or not
           onPress={() => {
             if (true) {
               setIsBuyModal(true);

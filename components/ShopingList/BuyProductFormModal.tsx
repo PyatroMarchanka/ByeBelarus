@@ -41,10 +41,10 @@ const BuyProductFormModal = ({
       onBackdropPress={() => setVisible(false)}
     >
       <View style={styles.content}>
-        <Text style={styles.text}>Buy Product</Text>
+        <Text style={styles.text}>Бяру!</Text>
         <Form>
           <Item floatingLabel style={{ marginBottom: 10 }}>
-            <Label>Cost</Label>
+            <Label>Кошт</Label>
             <Input
               value={cost}
               onChangeText={(value) => setCost(value)}
@@ -52,7 +52,7 @@ const BuyProductFormModal = ({
               style={styles.input}
               keyboardType="numeric"
             />
-            <Icon type="FontAwesome" name="dollar" />
+            <Icon type="Octicons" name="squirrel" />
           </Item>
           <Item floatingLabel style={{ marginBottom: 10 }}>
             <Label>{product.units}</Label>
@@ -65,12 +65,8 @@ const BuyProductFormModal = ({
             />
           </Item>
           <View style={styles.buttons}>
-            <Button
-              info
-              onPress={() => setVisible(false)}
-              style={styles.margin}
-            >
-              <Text>Cancel</Text>
+            <Button onPress={() => setVisible(false)} style={styles.margin}>
+              <Text>Назад</Text>
             </Button>
             <Button
               success
@@ -82,7 +78,7 @@ const BuyProductFormModal = ({
                 })
               }
             >
-              <Text>OK</Text>
+              <Text>Гатова!</Text>
             </Button>
           </View>
         </Form>

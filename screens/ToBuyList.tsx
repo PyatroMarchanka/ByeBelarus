@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { StateType, actions } from '../store/reducer';
 import { Units } from '../components/ShopingList/AddEditBuyProduct/useProductForm';
 import { Action } from 'redux';
+import { H2 } from 'native-base';
 
 type Props = {
   products: ProductType[];
@@ -20,7 +21,7 @@ const ToBuyListScreen = ({ products, addToBuyProduct }: Props) => {
   return (
     <View style={styles.container}>
       <AddToByeProduct
-        title="Add product"
+        title="Хачу набыць!"
         onSubmit={addToBuyProduct}
         initials={{
           name: '',
@@ -37,7 +38,7 @@ const ToBuyListScreen = ({ products, addToBuyProduct }: Props) => {
         data={products}
         keyExtractor={(item) => item.id}
       />
-      <Button title="Add item" onPress={() => setIsAddToBuyModal(true)} />
+      <Button title="Дадаць" onPress={() => setIsAddToBuyModal(true)} />
     </View>
   );
 };
@@ -56,5 +57,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 1.5,
+  },
+  splash: {
+    flex: 1,
   },
 });

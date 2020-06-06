@@ -10,7 +10,7 @@ const MainNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Shoping list" component={ShopingList} />
+        <Stack.Screen name="Купляце беларускае" component={ShopingList} />
       </Stack.Navigator>
     </NavigationContainer>
   );
