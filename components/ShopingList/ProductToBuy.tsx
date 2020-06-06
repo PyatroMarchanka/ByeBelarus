@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { colors } from '../../theme/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -7,39 +7,80 @@ import { StateType, actions } from '../../store/reducer';
 import { Action } from 'redux';
 import { BoughtProductTypeDTO } from './BoughtProduct';
 import { Button, ListItem, Text, Left, Body, Icon } from 'native-base';
-import { Units } from './AddEditBuyProduct/useProductForm';
+import { Units, AddProductType } from './AddEditBuyProduct/useProductForm';
+import AddEditBuyProduct from './AddEditBuyProduct/AddEditBuyProduct';
+import BuyProductFormModal from './BuyProductFormModal';
 
 export type ProductType = {
   name: string;
   amount: number;
   units: Units;
-  boughtOptions?: null | {
-    cost: null | number;
-    amount: null | number;
-  };
+  boughtOptions?: BoughtOptions;
   id: string;
+};
+
+export type BoughtOptions = null | {
+  cost: null | number;
+  amount: null | number;
 };
 
 type Props = {
   product: ProductType;
-  addBoughtProduct(prod: BoughtProductTypeDTO): void;
-  removeToBuyProduct(id: string): void;
+  buyProduct(product: ProductType, boughtOptions: BoughtOptions): void;
+  deleteToBuyProduct(id: string): void;
+  editToBuyProduct(product: AddProductType): void;
 };
 
 const ProductToBuy = ({
   product,
-  addBoughtProduct,
-  removeToBuyProduct,
+  editToBuyProduct,
+  deleteToBuyProduct,
+  buyProduct,
 }: Props) => {
+  const [isEditModal, setIsEditModal] = useState(false);
+  const [isBuyModal, setIsBuyModal] = useState(false);
   return (
     <ListItem icon>
+      <AddEditBuyProduct
+        title="Edit product"
+        onSubmit={editToBuyProduct}
+        visible={isEditModal}
+        setVisible={setIsEditModal}
+        initials={{
+          name: product.name,
+          amount: product.amount,
+          units: product.units,
+          id: product.id,
+        }}
+      />
+      <BuyProductFormModal
+        isVisible={isBuyModal}
+        setVisible={setIsBuyModal}
+        onSubmit={buyProduct}
+        product={product}
+      />
       <Left>
-        <Button style={{ backgroundColor: '#FF9501', height: 40, width: 40 }}>
+        <Button
+          onPress={() => {
+            setIsEditModal(true);
+          }}
+          style={{ backgroundColor: '#FF9501', height: 40, width: 40 }}
+        >
           <Icon type="Entypo" name="edit" />
         </Button>
       </Left>
       <Body>
-        <TouchableOpacity onPress={() => {}} style={styles.productContainer}>
+        <TouchableOpacity
+          onLongPress={() => deleteToBuyProduct(product.id)}
+          style={styles.productContainer}
+          onPress={() => {
+            if (true) {
+              setIsBuyModal(true);
+            } else {
+              buyProduct(product, null);
+            }
+          }}
+        >
           <Text>{product.name}</Text>
           <Text>{`${product.amount} ${product.units}`}</Text>
         </TouchableOpacity>
@@ -50,7 +91,23 @@ const ProductToBuy = ({
 const mapStateToProps = (state: StateType) => ({
   productsToBuy: state.products,
 });
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({});
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({
+  editToBuyProduct: (product: AddProductType) => {
+    dispatch(actions.editToBuyProduct(product));
+  },
+  deleteToBuyProduct: (id: string) => dispatch(actions.deleteToBuyProduct(id)),
+  buyProduct: (product: ProductType, boughtOptions: BoughtOptions) => {
+    dispatch(
+      actions.buyProduct(
+        product,
+        boughtOptions || {
+          cost: null,
+          amount: null,
+        },
+      ),
+    );
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(ProductToBuy);
 
 const styles = StyleSheet.create({

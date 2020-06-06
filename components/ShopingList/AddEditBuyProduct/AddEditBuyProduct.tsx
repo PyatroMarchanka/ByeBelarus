@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { StateType, actions } from '../../../store/reducer';
 import { ProductType } from '../ProductToBuy';
 import {
+  Text,
   Form,
   Item,
   Input,
@@ -16,28 +17,37 @@ import {
   Right,
   Left,
 } from 'native-base';
-import { useProductForm, Units } from './useProductForm';
+import { Dropdown } from 'react-native-material-dropdown';
+import { useProductForm, Units, AddProductType } from './useProductForm';
 
 type Props = {
   visible: boolean;
   setVisible: Function;
-  addToBuyProduct: Function;
+  onSubmit: Function;
+  initials: AddProductType;
+  title: string;
 };
-const AddEditBuyProduct = ({ visible, setVisible, addToBuyProduct }: Props) => {
-  const [state, actions] = useProductForm({
-    title: '',
-    amount: 0,
-    units: Units.kg,
-  });
+const AddEditBuyProduct = ({
+  visible,
+  setVisible,
+  onSubmit,
+  initials,
+  title,
+}: Props) => {
+  const { state, actions } = useProductForm(initials);
   return (
-    <Modal isVisible={visible} style={styles.container}>
+    <Modal
+      isVisible={visible}
+      style={styles.container}
+      onBackdropPress={() => setVisible(false)}
+    >
       <View style={styles.innerContainer}>
-        <Title style={styles.text}>Add item</Title>
+        <Text style={styles.text}>{title}</Text>
         <Form>
-          <Item floatingLabel>
+          <Item floatingLabel style={{ marginBottom: 10 }}>
             <Label>Title</Label>
             <Input
-              value={state.title}
+              value={state.name}
               onChangeText={(value: string) => actions.setTitle(value)}
               autoCapitalize="sentences"
               autoCorrect={true}
@@ -50,16 +60,18 @@ const AddEditBuyProduct = ({ visible, setVisible, addToBuyProduct }: Props) => {
               <Item floatingLabel last>
                 <Label>Amount</Label>
                 <Input
+                  value={state.amount?.toString()}
                   onChangeText={(value: string) => actions.setAmount(value)}
                   style={styles.input}
+                  keyboardType="numeric"
                 />
               </Item>
             </Left>
             <Right>
               <Picker
-                mode="dialog"
-                iosIcon={<Icon name="arrow-down" />}
-                style={{ width: undefined }}
+                mode="dropdown"
+                iosIcon={<Icon type="Feather" name="arrow-down" />}
+                style={{ width: '100%' }}
                 placeholder="Select your SIM"
                 placeholderStyle={{ color: '#bfc6ea' }}
                 placeholderIconColor="#007aff"
@@ -77,16 +89,17 @@ const AddEditBuyProduct = ({ visible, setVisible, addToBuyProduct }: Props) => {
         </Form>
 
         <View style={styles.buttons}>
-          <Button title="Close" onPress={() => setVisible(false)} />
           <Button
+            title="Close"
+            onPress={() => {
+              setVisible(false);
+            }}
+          />
+          <Button
+            disabled={!state.name}
             title="Ok"
             onPress={() => {
-              console.warn(state);
-              addToBuyProduct({
-                name: state.title,
-                amount: state.amount,
-                units: state.units,
-              });
+              onSubmit(state);
               setVisible(false);
             }}
           />
@@ -100,12 +113,7 @@ const mapStateToProps = (state: StateType) => ({
   products: state.products,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  addToBuyProduct: (prod: ProductType) =>
-    dispatch(actions.addToBuyProduct(prod)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddEditBuyProduct);
+export default connect(mapStateToProps)(AddEditBuyProduct);
 
 const styles = StyleSheet.create({
   innerContainer: {
