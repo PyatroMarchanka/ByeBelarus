@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
-import { colors } from '../../../theme/colors';
 import { connect } from 'react-redux';
-import { StateType, actions } from '../../../store/reducer';
-import { ProductType } from '../ProductToBuy';
+import { StateType } from '../../../store/reducer';
 import {
   Text,
   Form,
@@ -19,6 +17,7 @@ import {
   Button,
 } from 'native-base';
 import { useProductForm, Units, AddProductType } from './useProductForm';
+import AutoComplete from './AutoComplete';
 
 type Props = {
   visible: boolean;
@@ -35,6 +34,11 @@ const AddEditBuyProduct = ({
   title,
 }: Props) => {
   const { state, actions } = useProductForm(initials);
+  useEffect(() => {
+    if (title === 'Хачу набыць!') {
+      actions.reset();
+    }
+  }, [visible]);
   return (
     <Modal
       isVisible={visible}
@@ -86,7 +90,10 @@ const AddEditBuyProduct = ({
             </Right>
           </Item>
         </Form>
-
+        <AutoComplete
+          serchString={state.name}
+          autoComplete={actions.setTitle}
+        />
         <View style={styles.buttons}>
           <Button
             onPress={() => {
