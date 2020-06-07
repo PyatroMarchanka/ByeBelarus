@@ -48,15 +48,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(BoughtProduct);
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     padding: 10,
+    borderRadius: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomColor: colors.primarySelected,
-    borderBottomWidth: 1,
+    margin: 10,
   },
   text: {
     flex: 1,
-    color: 'white',
+    fontSize: 17,
     textAlign: 'center',
     alignItems: 'center',
     textAlignVertical: 'center',

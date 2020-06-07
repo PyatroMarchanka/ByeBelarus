@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProductType } from '../components/ShopingList/ProductToBuy';
 import { FlatList } from 'react-native-gesture-handler';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { colors } from '../theme/colors';
 import BoughtProduct from '../components/ShopingList/BoughtProduct';
 import { StateType } from '../store/reducer';
@@ -25,7 +25,7 @@ const BoughtListScreen = ({ products }: Props) => {
         />
       ) : (
         <View style={styles.splash}>
-          <H2 style={styles.splash}>Набудзьце што-небудзь беларускае</H2>
+          <Image source={require('../assets/cart.png')} style={styles.image} />
         </View>
       )}
     </View>
@@ -49,5 +49,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
     textAlignVertical: 'center',
+  },
+  image: {
+    width: 200,
+    height: 150,
   },
 });
