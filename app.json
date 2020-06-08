@@ -1,4 +1,6 @@
 {
+  "name": "BuyBelarus",
+  "displayName": "BuyBelarus",
   "expo": {
     "name": "BuyBelarus",
     "slug": "BuyBelarus",
@@ -16,7 +18,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pyatro.buyBelarus"
     },
     "android": {
       "package": "com.pyatro.buy_belarus",
